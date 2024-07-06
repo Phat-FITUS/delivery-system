@@ -31,7 +31,7 @@ class Astar(Search):
 
             for move in MoveDirection.values():
                 next_pos = (current.pos[0] + move[0], current.pos[1] + move[1])
-                if self.out_map(next_pos):
+                if self.cannot_move(next_pos):
                     continue
 
                 eval_score = cost[current] + 1 + self.level.heuristic(next_pos, self.level.goal, current)
