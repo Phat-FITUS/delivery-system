@@ -31,17 +31,19 @@ class Level:
                 row = []
                 for j, char in enumerate(line):
                     if char == '0':
-                        row.append(0)
+                        row.append(Position(i, j, value=0))
                     elif char == '-1':
-                        row.append(-1)
+                        row.append(Position(i, j, value=-1))
                     elif char == 'S':
-                        row.append('S')
-                        self.start = (i, j)
+                        pos = Position(i, j, value=0)
+                        row.append(pos)
+                        self.start = pos
                     elif char == 'G':
-                        row.append('G')
-                        self.goal = (i, j)
+                        pos = Position(i, j, value=0)
+                        row.append(pos)
+                        self.goal = pos
                     else:
-                        row.append(char)
+                        row.append(Position(i, j, value=int(char)))
                 self.map.append(row)
 
     def heuristic(self, pos, goal, current=None):
