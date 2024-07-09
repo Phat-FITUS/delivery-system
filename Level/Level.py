@@ -27,32 +27,37 @@ class Level:
 
             # Đọc các dòng tiếp theo để lấy thông tin bản đồ
             for i in range(self.n):
-                line = file.readline().strip()
+                line = file.readline().strip().split()
                 row = []
                 for j, char in enumerate(line):
+                    # print(char, end="/")
                     if char == '0':
                         row.append(Position(i, j, value=0))
                     elif char == '-1':
+                        
                         row.append(Position(i, j, value=-1))
                     elif char == 'S':
-                        pos = Position(i, j, value=0)
+                        pos = Position(i, j, value=6)
                         row.append(pos)
                         self.start = pos
                     elif char == 'G':
-                        pos = Position(i, j, value=0)
+                        pos = Position(i, j, value=8)
                         row.append(pos)
                         self.goal = pos
                     else:
-                        row.append(Position(i, j, value=int(char)))
+                        continue
                 self.map.append(row)
 
     def heuristic(self, pos, goal, current=None):
         pass
 
 if __name__ == '__main__':
-    level = Level("../input1 level1.txt")
+    level = Level("D:\mobile_Dev\delivery-system\input1 level1.txt")
     print(len(level.map))
     print(len(level.map[0]))
-    for i in range(level.n):
-        for j in range(level.m):
+    print(level.n)
+    print(level.m)
+    for i in range(level.n ):
+        for j in range(level.m ):
             print(level.map[i][j].value, end=" ")
+        print('\n')
