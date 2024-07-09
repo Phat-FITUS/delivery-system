@@ -1,10 +1,10 @@
 from Global.DataStructure import Frontier
-from .Search import *
+from Search import *
 from Global.variable import *
 
 
 class Astar(Search):
-    def __init__(self, level, heuristic):
+    def __init__(self, level):
         super().__init__(level)
         self.time = dict()
         self.fuel = dict()
@@ -44,3 +44,6 @@ class Astar(Search):
                     self.time[next_pos] = self.time[current] + 1 + self.level.map[current[0]][current[1]].value
                     self.fuel[next_pos] = self.fuel[current] + 1 + self.level.map[current[0]][current[1]].fuel
         return self.creat_path()
+
+
+

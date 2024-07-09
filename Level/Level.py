@@ -48,3 +48,11 @@ class Level:
 
     def heuristic(self, pos, goal, current=None):
         pass
+
+if __name__ == '__main__':
+    level = Level("../input1 level1.txt")
+    print(len(level.map))
+    print(len(level.map[0]))
+    for i in range(level.n):
+        for j in range(level.m):
+            print(level.map[i][j].value, end=" ")
