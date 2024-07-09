@@ -23,5 +23,5 @@ class Search:
 
         return path
 
-    def run(self):
+    def run(self, agent):
         pass

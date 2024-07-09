@@ -1,5 +1,6 @@
 from Global.variable import *
 
+
 class Level:
     def __init__(self, file_path):
         self.load(file_path)
@@ -46,7 +47,7 @@ class Level:
                         row.append(Position(i, j, value=int(char)))
                 self.map.append(row)
 
-    def heuristic(self, pos, goal, current=None):
+    def heuristic(self, pos, goal, agent):
         pass
 
 if __name__ == '__main__':

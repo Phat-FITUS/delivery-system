@@ -9,41 +9,62 @@ class Astar(Search):
         self.time = dict()
         self.fuel = dict()
 
-    def run(self):
-        self.frontier = Frontier()
-        self.frontier.put((0, self.level.start.pos))
-        self.expanded = []
-        self.trace = dict()
-        cost = dict()
-        eval = dict()
-        self.time = dict()
-        self.fuel = dict()
-
-        while not self.frontier.empty():
-            current = self.frontier.get()
-
-            if current == self.level.goal.pos:
+    def run(self, agents):
+        done = False
+        for agent in agents:
+            agent.frontier = Frontier()
+            agent.frontier.put((0, agent.start))
+            agent.expanded = []
+            agent.trace = dict()
+            agent.cost = dict()
+            agent.eval = dict()
+            agent.time = dict()
+            agent.fuel = dict()
+        while True:
+            if done is True:
                 break
+            for agent in agents:
 
-            if current == self.level.start.pos:
-                self.trace[self.level.start], cost[self.level.start], eval[self.level.start] = None, 0, 0
-            self.expanded.append(current)
+                if agent.frontier.empty():
+                    if agent.id != 0:
+                        agent.generate_goal()
+                    else:
+                        done = True
+                        break
+                agent.current = agent.frontier.get()
+                if self.level.map[agent.current[0]][agent.current[1]].agent is True:
+                    pre = agent.current
+                    agent.frontier.put((agent.eval[agent.current], agent.current))
+                    agent.current = agent.frontier.get()
+                    if agent.current == pre:
+                        agent.frontier.put((agent.eval[agent.current], agent.current))
+                        continue
+                if agent.current == agent.goal:
+                    if agent.id == 0:
+                        done = True
+                        break
+                    else:
+                        agent.generate_goal()
 
-            for move in MoveDirection.values():
-                next_pos = (current.pos[0] + move[0], current.pos[1] + move[1])
-                if self.cannot_move(next_pos):
-                    continue
+                if agent.current == agent.start:
+                    agent.trace[self.level.start], agent.cost[self.level.start], agent.eval[self.level.start] = None, 0, 0
+                agent.expanded.append(agent.current)
+            for agent in agents:
+                for move in MoveDirection.values():
+                    next_pos = (agent.current[0] + move[0], agent.current[1] + move[1])
+                    if self.cannot_move(next_pos):
+                        continue
+                    eval_score = agent.cost[agent.current] + 1 + self.level.heuristic(next_pos, self.level.goal, agent)
 
-                eval_score = cost[current] + 1 + self.level.heuristic(next_pos, self.level.goal, current)
-
-                if next_pos not in self.expanded:
-                    eval[next_pos] = eval_score
-                    self.frontier.put((eval_score, next_pos))
-                    self.trace[next_pos] = current
-                    cost[next_pos] = cost[current] + 1
-                    self.time[next_pos] = self.time[current] + 1 + self.level.map[current[0]][current[1]].value
-                    self.fuel[next_pos] = self.fuel[current] + 1 + self.level.map[current[0]][current[1]].fuel
-        return self.creat_path()
+                    if next_pos not in self.expanded:
+                        agent.eval[next_pos] = eval_score
+                        agent.frontier.put((eval_score, next_pos))
+                        agent.trace[next_pos] = agent.current
+                        agent.cost[next_pos] = agent.cost[agent.current] + 1
+                        agent.time[next_pos] = agent.time[agent.current] - 1 - self.level.map[agent.current[0]][agent.current[1]].value
+                        agent.fuel[next_pos] = agent.fuel[agent.current] - 1 + self.level.map[agent.current[0]][agent.current[1]].fuel
+        self.trace = agents[0].trace
+        return agents
 
 
 
