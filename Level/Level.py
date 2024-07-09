@@ -29,27 +29,21 @@ class Level:
             for i in range(self.n):
                 line = file.readline().strip()
                 row = []
-                j = 0
-                for k, char in enumerate(line):
+                for j, char in enumerate(line):
                     if char == '0':
                         row.append(Position(i, j, value=0))
-                        j+=1
                     elif char == '-1':
                         row.append(Position(i, j, value=-1))
-                        j += 1
                     elif char == 'S':
                         pos = Position(i, j, value=0)
                         row.append(pos)
                         self.start = pos
-                        j += 1
                     elif char == 'G':
                         pos = Position(i, j, value=0)
                         row.append(pos)
                         self.goal = pos
-                        j += 1
-                    # else:
-                    #     pass
-                        # row.append(Position(i, j, value=int(char)))
+                    else:
+                        row.append(Position(i, j, value=int(char)))
                 self.map.append(row)
 
     def heuristic(self, pos, goal, current=None):
