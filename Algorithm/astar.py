@@ -1,6 +1,5 @@
 from Global.DataStructure import Frontier
-from Level.Level_1 import Level_1
-from .Search import *
+from Search import *
 from Global.variable import *
 
 
@@ -46,7 +45,5 @@ class Astar(Search):
                     self.fuel[next_pos] = self.fuel[current] + 1 + self.level.map[current[0]][current[1]].fuel
         return self.creat_path()
 
-if __name__ == '__main__':
-    level = Level_1("../input1 level1.txt")
-    algo = Astar(level)
-    path = algo.run()
+
+

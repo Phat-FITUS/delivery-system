@@ -1,4 +1,4 @@
-from Level import *
+from Level.Level import Level
 
 
 class Level_1(Level):
