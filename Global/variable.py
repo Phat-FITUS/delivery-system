@@ -11,10 +11,17 @@ class Position:
 
 
 class Agent:
-    def __init__(self, start, goal=None, id=0):
+    def __init__(self, start=None, goal=None, id=0):
         self.start = start  # (x,y)
         self.goal = goal  # (x, y)
         self.id = id
+        self.frontier = None
+        self.trace = None
+        self.expanded = None
+        self.cost = None
+        self.eval = None
+        self.time = None
+        self.fuel = None
 
     def generate_goal(self, level):
         valid_pos = []
