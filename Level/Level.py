@@ -15,6 +15,7 @@ class Level:
         self.m = 0
         # Start and Goal are a Position
         self.agents = dict()
+        self.fuels = dict()
 
         self.other_start = None
         self.other_goal = None
@@ -69,10 +70,12 @@ class Level:
                             self.agents[int(char[1])] = Agent(goal=(i, j), id=int(char[1]))
                     elif re.match(r'F\d', char):
                         pos = Position(i, j, value=0, fuel=int(char[1]))
+                        self.fuels[(i, j)] = int(char[1])
                         row.append(pos)
                     else:
                         continue
                 self.map.append(row)
+            print(self.fuels)
 
     def heuristic(self, pos, goal, agent):
         pass

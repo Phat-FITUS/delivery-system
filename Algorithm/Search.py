@@ -11,6 +11,8 @@ class Search:
     def creat_path(self, agent):
         current = agent.goal
         path = []
+        if agent.trace[current] is None:
+            return None
         while agent.trace[current] != agent.start:
             path.append(current)
             current = agent.trace[current]

@@ -15,6 +15,9 @@ class Frontier:
                     insert = False
         if insert:
             heapq.heappush(self.queue, item)
+            return True
+        else:
+            return False
 
     def empty(self):
         return len(self.queue) == 0
