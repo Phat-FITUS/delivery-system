@@ -1,49 +1,45 @@
-from Global.DataStructure import Frontier
-from .Search import *
+from Global.DataStructure import *
+from Search import *
 from Global.variable import *
+from Level.Level_1 import *
+from Level.Level_2 import *
+from Level.Level_3 import *
 
 class UCS(Search):
     def __init__(self, level):
         super().__init__(level)
-        self.time = dict()
-        self.fuel = dict()
 
     def run(self):
-        self.frontier = Frontier()
-        self.frontier.put((0, self.level.start.pos))
-        self.expanded = []
-        self.trace = dict()
-        cost = dict()
-        self.time = dict()
-        self.fuel = dict()
-        # Duyệt tới khi nào không còn phần tử trong frontier
-        while not self.frontier.empty():
-            current = self.frontier.get()
-           
-            # Đã tới đích
-            if current == self.level.goal.pos:
+        agent = next(iter(self.level.agents.values()))  # pick the first agent
+        agent.frontier = Frontier()
+        agent.frontier.put((0, agent.start))  # push the start node with initial cost to frontier
+        agent.expanded = []
+        agent.trace = {agent.start: None}  # trace the path
+        agent.cost = {agent.start: 0}  # cost from start node to this node
+
+        while not agent.frontier.empty():
+            current_cost, current = agent.frontier.get()  # Get the node with the lowest total cost
+
+            if current == agent.goal:  # Check if the current node is the goal
                 break
-            
 
-            # Nếu là điểm bắt đầu -> khởi tạo giá trị
-            if current == self.level.start.pos:
-                self.trace[self.level.start], cost[self.level.start] = None, 0
-            self.expanded.append(current)
-            
+            agent.expanded.append(current)
 
-            # Duyệt qua từng hướng đi
-            for move in MoveDirection.values():
+            for move in MoveDirection.values():  # Loop through all possible moves
                 next_pos = (current[0] + move[0], current[1] + move[1])
-                if self.cannot_move(next_pos):
+                new_cost = current_cost + self.level.cost(current, next_pos)  # Calculate new cost
+
+                if self.cannot_move(next_pos) or next_pos in agent.expanded:
                     continue
 
-                new_cost = cost[current] + 1  
-                
-                # Nếu điểm tiếp theo chưa được duyệt hoặc có giá trị mới nhỏ hơn giá trị cũ
-                if next_pos not in self.expanded or new_cost < cost.get(next_pos, float('inf')):
-                    cost[next_pos] = new_cost
-                    self.frontier.put((new_cost, next_pos))
-                    self.trace[next_pos] = current
-                    self.time[next_pos] = self.time[current] + 1 + self.level.map[current[0]][current[1]].value
-                    self.fuel[next_pos] = self.fuel[current] + 1 + self.level.map[current[0]][current[1]].fuel
-        return self.creat_path()
+                if next_pos not in agent.cost or new_cost < agent.cost[next_pos]:  # Check if new cost is cheaper
+                    agent.trace[next_pos] = current  # Add the next node to the trace
+                    agent.cost[next_pos] = new_cost  # Update the cost
+                    agent.frontier.put((new_cost, next_pos))  # add the next node to the frontier with its new cost
+
+        return self.create_path(agent)  # This should be create_path, not creat_path
+
+if __name__ == '__main__':
+    level = Level_3("./input1_level3.txt")  
+    algo = UCS(level)
+    print(algo.run())

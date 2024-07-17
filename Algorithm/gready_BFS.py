@@ -1,46 +1,43 @@
-from Global.DataStructure import Frontier
-from .Search import *
+from Global.DataStructure import *
+from Search import *
 from Global.variable import *
+from Level.Level_1 import *
+from Level.Level_2 import *
+from Level.Level_3 import *
 
 class GBFS(Search):
-    def __init__(self, level, heuristic):
+    def __init__(self, level):
         super().__init__(level)
-        self.heuristic = heuristic
-        self.time = dict()
-        self.fuel = dict()
 
     def run(self):
-        self.frontier = Frontier()
-        self.frontier.put((0, self.level.start.pos))
-        self.expanded = []
-        self.trace = dict()
-        eval = dict()
-        self.time = dict()
-        self.fuel = dict()
+        agent = next(iter(self.level.agents.values()))  # pick the first agent
+        agent.frontier = Frontier()
+        agent.frontier.put((0, agent.start))  # push the start node to frontier
+        agent.expanded = []
+        agent.trace = {agent.start: None}  # trace the path
 
-        while not self.frontier.empty():
-            current = self.frontier.get()
+        while not agent.frontier.empty():
+            _, current = agent.frontier.get()  # Get the node with the lowest cost
 
-            if current == self.level.goal.pos:
+            if current == agent.goal:  # Check if the current node is the goal
                 break
 
-            if current == self.level.start.pos:
-                self.trace[self.level.start], eval[self.level.start] = None, 0
-            self.expanded.append(current)
+            agent.expanded.append(current)
 
-            for move in MoveDirection.values():
+            for move in MoveDirection.values():  # Loop through all possible moves
                 next_pos = (current[0] + move[0], current[1] + move[1])
-                if self.cannot_move(next_pos):
+
+                if self.cannot_move(next_pos) or next_pos in agent.expanded:
                     continue
 
-                eval_score = self.level.heuristic(next_pos, self.level.goal,current)
+                if next_pos not in agent.trace:  # Check if the next node is not in the trace
+                    agent.trace[next_pos] = current  # Add the next node to the trace
+                    heuristic_cost = self.level.heuristic(next_pos, agent.goal)  # Calculate the heuristic cost
+                    agent.frontier.put((heuristic_cost, next_pos))  # add the next node to the frontier
 
-                if next_pos not in self.expanded and (next_pos not in eval or eval[next_pos] > eval_score):
-                    eval[next_pos] = eval_score
-                    self.frontier.put((eval_score, next_pos))
-                    self.trace[next_pos] = current
-                    self.time[next_pos] = self.time[current] + 1 + self.level.map[current[0]][current[1]].value
-                    self.fuel[next_pos] = self.fuel[current] + 1 + self.level.map[current[0]][current[1]].fuel
-        return self.creat_path()
-
+        return self.creat_path(agent)  
+if __name__ == '__main__':
+    level = Level_3("./input1_level3.txt")  
+    algo = GBFS(level)
+    print(algo.run())
    
