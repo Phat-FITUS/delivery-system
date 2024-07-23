@@ -20,6 +20,18 @@ class Search:
         path.reverse()
 
         return path
+    def creat_path_2(self, expanded, trace):
+        current = expanded[len(expanded) - 1]
+        path = []
+        if trace[current] is None:
+            return None
+        while trace[current] is not None:
+            path.append(current)
+            current = trace[current]
+        path.append(current)
+        path.reverse()
+
+        return path
 
     def run(self):
         pass

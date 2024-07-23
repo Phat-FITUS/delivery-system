@@ -51,7 +51,7 @@ class Astar(Search):
 
                         break
                     else:
-                        agent.generate_goal()
+                        agent.generate_goal(self.level)
 
                 if agent.current == agent.start:
                     (agent.trace[agent.start], agent.cost[agent.start], agent.eval[agent.start],
@@ -90,6 +90,6 @@ class Astar(Search):
 
 
 if __name__ == '__main__':
-    level = Level_3("./input1_level3.txt")
+    level = Level_3("./input1_level2.txt")
     algo = Astar(level)
     print(algo.run())

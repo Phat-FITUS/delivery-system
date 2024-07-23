@@ -2,7 +2,7 @@ from Level.Level import Level
 import math
 
 
-class Level_3(Level):
+class Level_4(Level):
     def __init__(self, file_path):
         super().__init__(file_path)
 

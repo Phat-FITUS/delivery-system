@@ -77,12 +77,10 @@ class Level:
                 self.map.append(row)
             print(self.fuels)
 
-    def heuristic(self, pos, goal, agent):
-        pass
-
 
 if __name__ == '__main__':
-    level = Level("./input1_level3.txt")
+    level = Level("../input1_level4.txt")
+    print(level.agents[0].goal)
     for i in range(level.n ):
         for j in range(level.m ):
             print(level.map[i][j].value+level.map[i][j].fuel, end=" ")

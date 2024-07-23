@@ -1,5 +1,5 @@
 from random import randint
-
+from Global.DataStructure import *
 
 class Position:
     def __init__(self, x, y, value=0, fuel=0, agent=False):
@@ -13,23 +13,27 @@ class Position:
 class Agent:
     def __init__(self, start=None, goal=None, id=0):
         self.start = start  # (x,y)
-        self.goal = goal  # (x, y)
+        self.goal = goal # (x, y)
+        print("==============----------=============")
+        print(self.goal)
         self.id = id
-        self.frontier = None
-        self.trace = None
-        self.expanded = None
-        self.cost = None
-        self.eval = None
-        self.time = None
-        self.fuel = None
+        self.current = None
 
-    def generate_goal(self, level):
+    def generate_goal(self, agents, level):
         valid_pos = []
         for i in range(level.n):
             for j in range(level.m):
+                same = False
+                for agent in agents.values():
+                    if agent.goal == (i, j):
+                        same = True
+                        break
+                if same:
+                    continue
                 if level.map[i][j].value > 0 and level.map[i][j].agent is False:
                     valid_pos.append((i, j))
         new_pos = valid_pos[randint(0, len(valid_pos) - 1)]
+        self.start = self.goal
         self.goal = new_pos
 
 
@@ -38,4 +42,5 @@ MoveDirection = {
     "down": (-1, 0),
     "left": (0, -1),
     "right": (0, 1),
+    "wait": (0, 0),
 }
