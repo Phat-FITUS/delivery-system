@@ -13,7 +13,7 @@ class ImageButton(Component):
 
 	def draw(self, screen: pygame.Surface, x: int, y: int, action: Callable) -> None:
 		rect = self.image.get_rect()
-		rect.topleft = (x, y)
+		rect.topleft = (x - self.image.get_width() // 2, y)
 
 		if self.isClicked(rect):
 			action()
