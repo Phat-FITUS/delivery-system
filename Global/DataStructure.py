@@ -24,6 +24,3 @@ class Frontier:
 
     def get(self):
         return heapq.heappop(self.queue)[1]
-
-    def clear(self):
-        self.queue = []

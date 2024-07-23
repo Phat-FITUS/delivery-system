@@ -55,8 +55,6 @@ class Astar(Search):
             agent.time = dict()
             agent.fuel = dict()
             agent.heuristic = dict()
-            (agent.cost[agent.start], agent.eval[agent.start],
-             agent.path[agent.start], agent.time[agent.start], agent.fuel[agent.start]) = 0, 0, 0, 0, 0
             # agent.trace[agent.goal] = None
         frontier.put((0, tuple(state)))
         trace[tuple(state)] = None
