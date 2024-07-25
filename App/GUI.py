@@ -19,3 +19,7 @@ class Window:
         app.run()
 
         pygame.quit()
+
+if __name__ == "__main__":
+    app = Window()
+    app.run()

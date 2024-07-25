@@ -41,7 +41,7 @@ class LevelScreen(Screen):
             x, y = start_pos.start
             self.drawTextCell("S" if start_num == 1 else f"S{index}", start_x + x * self.cell_size, start_y + y * self.cell_size, Color.WHITE, Color.DARK_GREEN)
 
-            x, y = start_pos.goal
+            x, y = start_pos.goal[0]
             self.drawTextCell("G" if goal_num == 1 else f"S{index}", start_x + x * self.cell_size, start_y + y * self.cell_size, Color.WHITE, Color.LIGHT_RED)
             index += 1
 

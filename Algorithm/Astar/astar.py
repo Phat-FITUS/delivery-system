@@ -1,12 +1,12 @@
-from Global.DataStructure import *
-from Search import *
+from Global import DataStructure
+from Algorithm.Search import *
 from Global.variable import *
 from Level.Level_1 import *
 from Level.Level_2 import *
 from Level.Level_3 import *
 from Level.Level_4 import *
 
-class UCS(Search):
+class Astar(Search):
     def __init__(self, level):
         super().__init__(level)
         self.time = dict()
@@ -168,7 +168,7 @@ class UCS(Search):
                                 save["fuel"][next_pos] = self.history[current_state]["fuel"][agents[i].current] + 1
                         save["cost"][next_pos] = pow(save["time"][next_pos],2) + save["path"][next_pos]
                         save["heuristic"][next_pos] = self.level.heuristic(next_pos, agents[i], save, self.history[current_state]["goal"][i], save["state"][i])
-                        eval_score = save["cost"][next_pos]
+                        eval_score = save["cost"][next_pos] + save["heuristic"][next_pos]
                         save["eval"][next_pos] = eval_score
                         total_eval += eval_score
                         i += 1
@@ -205,8 +205,8 @@ class UCS(Search):
 
 
 if __name__ == '__main__':
-    level = Level_1("../input1_level1.txt")
-    algo = UCS(level)
+    level = Level_1("../../input1_level1.txt")
+    algo = Astar(level)
     solve = algo.run()
     print(solve)
     print()

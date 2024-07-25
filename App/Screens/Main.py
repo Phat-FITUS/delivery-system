@@ -2,7 +2,7 @@ from .Screen import Screen
 from ..Constant import Color
 from ..Components import Button
 from .Levels import LevelScreen
-from ..External import Level_1, Level_2, Level_3
+from ..External import Level_1, Level_2, Level_3, Astar
 import pygame
 
 class Main(Screen):
