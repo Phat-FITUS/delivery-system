@@ -11,6 +11,8 @@ class Screen:
         if background:
             self.background = pygame.image.load(background)
             self.background = pygame.transform.scale(self.background, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+        else:
+            self.background = ""
         
         self.font = font
     
@@ -20,7 +22,7 @@ class Screen:
         else:
             self.screen.fill(Color.BLACK)
 
-    def displayText(self, text, font, text_color, x, y) -> None:
+    def displayText(self, text: str, font: pygame.font.Font, text_color: tuple, x: int, y: int) -> None:
         txt = font.render(text, True, text_color)
         text_rect = txt.get_rect(center=(x, y))
         self.screen.blit(txt, text_rect)

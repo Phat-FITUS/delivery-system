@@ -2,7 +2,7 @@ import pygame
 from .Screens.Main import Main
 
 class Window:
-    def __init__(self, font=".\\Assets\\Pixel\\PixelifySans-VariableFont_wght.ttf") -> None:
+    def __init__(self, font="./Assets/Pixel/PixelifySans-VariableFont_wght.ttf") -> None:
         pygame.init()
         self.setupAttributes(font)
         pygame.display.set_caption("Delivery system")
@@ -15,7 +15,7 @@ class Window:
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
 
     def run(self) -> None:
-        app = Main(self.screen, self.SCREEN_HEIGHT, self.SCREEN_WIDTH, self.text_font, ".\\Assets\\background.jpg")
+        app = Main(self.screen, self.SCREEN_HEIGHT, self.SCREEN_WIDTH, self.text_font, "./Assets/background.jpg")
         app.run()
 
         pygame.quit()
