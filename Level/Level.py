@@ -51,7 +51,7 @@ class Level:
                         pos = Position(i, j, value=0)
                         row.append(pos)
                         if 0 in self.agents.keys():
-                            self.agents[0].goal = (i, j)
+                            self.agents[0].goal.append((i, j))
                         else:
                             self.agents[0] = Agent(goal=(i, j), id=0)
                     elif re.match(r"S\d", char):
@@ -65,7 +65,7 @@ class Level:
                         pos = Position(i, j, value=0)
                         row.append(pos)
                         if int(char[1]) in self.agents.keys():
-                            self.agents[int(char[1])].goal = (i, j)
+                            self.agents[int(char[1])].goal.append((i, j))
                         else:
                             self.agents[int(char[1])] = Agent(goal=(i, j), id=int(char[1]))
                     elif re.match(r'F\d', char):

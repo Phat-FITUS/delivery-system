@@ -1,7 +1,7 @@
 import heapq
 
 
-class Frontier:
+class PriorityQueue:
     def __init__(self):
         self.queue = []
 
@@ -14,7 +14,8 @@ class Frontier:
                 else:
                     insert = False
         if insert:
-            heapq.heappush(self.queue, item)
+            self.queue.append(item)
+            self.queue.sort()
             return True
         else:
             return False
@@ -23,7 +24,10 @@ class Frontier:
         return len(self.queue) == 0
 
     def get(self):
-        return heapq.heappop(self.queue)[1]
+        # return heapq.heappop(self.queue)[1]
+        return self.queue.pop(0)[1]
+    def clear(self):
+        self.queue = []
 
 class Queue:
     def __init__(self):

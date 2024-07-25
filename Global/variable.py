@@ -13,7 +13,10 @@ class Position:
 class Agent:
     def __init__(self, start=None, goal=None, id=0):
         self.start = start  # (x,y)
-        self.goal = goal # (x, y)
+        if goal is None:
+            self.goal = []
+        else:
+            self.goal = [goal] # (x, y)
         print("==============----------=============")
         print(self.goal)
         self.id = id
@@ -25,7 +28,7 @@ class Agent:
             for j in range(level.m):
                 same = False
                 for agent in agents.values():
-                    if agent.goal == (i, j):
+                    if agent.current == (i, j):
                         same = True
                         break
                 if same:
@@ -34,7 +37,7 @@ class Agent:
                     valid_pos.append((i, j))
         new_pos = valid_pos[randint(0, len(valid_pos) - 1)]
         self.start = self.goal
-        self.goal = new_pos
+        self.goal.append(new_pos)
 
 
 MoveDirection = {
