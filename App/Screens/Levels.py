@@ -2,6 +2,7 @@ import pygame
 from .Screen import Screen
 from ..Constant import Color
 from ..External import Level, Astar
+import time
 
 class LevelScreen(Screen):
     def __init__(self, level: Level, *args) -> None:
@@ -12,6 +13,9 @@ class LevelScreen(Screen):
 
         self.grid_w = self.level.n * self.cell_size
         self.grid_h = self.level.m * self.cell_size
+
+        self.state = 0
+        self.finish = False
 
     def drawRect(self, x: int, y: int, color: tuple, colorMode: int = 0) -> None:
         rect = pygame.Rect(x, y, self.cell_size, self.cell_size)
@@ -48,15 +52,19 @@ class LevelScreen(Screen):
 
     def drawPath(self, start_x: int, start_y: int):
         path = self.search.run()
-        print("Path: ", path)
         if path is None:
             return
 
+        path = path[1:-1]
         for pos in path:
-            x, y = pos
-            x = start_x + x * self.cell_size
-            y = start_y + y * self.cell_size
-            self.drawRect(x, y, Color.LIGHT_BLUE)
+            if pos[1] <= self.state:
+                x, y = pos[0][0]
+                x = start_x + x * self.cell_size
+                y = start_y + y * self.cell_size
+                self.drawRect(x, y, Color.PURPLE)
+
+        if self.state > path[-1][1]:
+            self.finish = True
 
     def drawGrid(self, start_x: int, start_y: int):
         end_x = start_x + self.grid_w
@@ -86,3 +94,7 @@ class LevelScreen(Screen):
             self.drawLayout()
 
             pygame.display.update()
+
+            if not self.finish:
+                time.sleep(1)
+                self.state += 1
