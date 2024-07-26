@@ -1,7 +1,8 @@
 import pygame
 from .Screen import Screen
 from ..Constant import Color
-from ..External import Level, Astar
+from ..External import Level, Level_1, Astar, UCS, GBFS, BFS, DFS
+from ..Components import Button
 import time
 
 class LevelScreen(Screen):
@@ -15,7 +16,14 @@ class LevelScreen(Screen):
         self.grid_h = self.level.m * self.cell_size
 
         self.state = 0
+        self.fuel = self.level.f
         self.finish = False
+
+        self.btn_astar = Button.ImageButton("./Assets/asao.png", 0.25)
+        self.btn_ucs = Button.ImageButton("./Assets/ucs.png", 0.25)
+        self.btn_gbfs = Button.ImageButton("./Assets/gbfs.png", 0.25)
+        self.btn_bfs = Button.ImageButton("./Assets/bfs.png", 0.25)
+        self.btn_dfs = Button.ImageButton("./Assets/dfs.png", 0.25)
 
     def drawRect(self, x: int, y: int, color: tuple, colorMode: int = 0) -> None:
         rect = pygame.Rect(x, y, self.cell_size, self.cell_size)
@@ -57,8 +65,14 @@ class LevelScreen(Screen):
 
         path = path[1:-1]
         for pos in path:
-            if pos[1] <= self.state:
-                x, y = pos[0][0]
+            if pos[1] < self.state:
+                y, x = pos[0][0]
+                x = start_x + x * self.cell_size
+                y = start_y + y * self.cell_size
+                self.drawRect(x, y, Color.YELLOW)
+            elif pos[1] == self.state:
+                self.fuel -= self.search.history[pos]['fuel'][pos[0][0]]
+                y, x = pos[0][0]
                 x = start_x + x * self.cell_size
                 y = start_y + y * self.cell_size
                 self.drawRect(x, y, Color.PURPLE)
@@ -83,6 +97,35 @@ class LevelScreen(Screen):
     def drawLayout(self) -> None:
         self.drawBackground()
         self.drawGrid(50, 50)
+        self.displayText(f"State: {self.state}", self.font, Color.WHITE, 200, 600)
+        self.displayText(f"Fuel: {self.fuel}", self.font, Color.WHITE, 200, 650)
+
+        if isinstance(self.level, Level_1):
+            self.btn_astar.draw(self.screen, 800, 50, self.handleSearch(0))
+            self.btn_ucs.draw(self.screen, 800, 150, self.handleSearch(1))
+            self.btn_gbfs.draw(self.screen, 800, 250, self.handleSearch(2))
+            self.btn_bfs.draw(self.screen, 800, 350, self.handleSearch(3))
+            self.btn_dfs.draw(self.screen, 800, 450, self.handleSearch(4))
+
+    def handleSearch(self, algo: int) -> callable:
+        if algo == 0:
+            search_algo = Astar(self.level)
+        elif algo == 1:
+            search_algo = UCS(self.level)
+        elif algo == 2:
+            search_algo = GBFS(self.level)
+        elif algo == 3:
+            search_algo = BFS(self.level)
+        elif algo == 4:
+            search_algo = DFS(self.level)
+
+        def search():
+            self.search = search_algo
+            self.state = 0
+            self.fuel = self.level.f
+            self.finish = False
+
+        return search
 
     def run(self) -> None:
         while self.running:

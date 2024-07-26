@@ -14,7 +14,7 @@ class BFS(Search):
     def run(self):
         agent = next(iter(self.level.agents.values()))  # pick the first agent
         agent.frontier = Queue()
-        agent.frontier.put(agent.start)  # push the start node to frontier
+        agent.frontier.enqueue(agent.start)  # push the start node to frontier
         agent.expanded = []
         agent.trace = {agent.start: None}  # trace the path
 
