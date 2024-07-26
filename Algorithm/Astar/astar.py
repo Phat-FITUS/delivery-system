@@ -165,7 +165,7 @@ class Astar(Search):
                                 save["fuel"][next_pos] = self.history[current_state]["fuel"][agents[i].current]
                             else:
                                 save["fuel"][next_pos] = self.history[current_state]["fuel"][agents[i].current] + 1
-                        save["cost"][next_pos] = pow(save["time"][next_pos],2) + save["path"][next_pos]
+                        save["cost"][next_pos] = pow(save["time"][next_pos],3) + pow(save["path"][next_pos], 2) + save["fuel"][next_pos]
                         save["heuristic"][next_pos] = self.level.heuristic(next_pos, agents[i], save, self.history[current_state]["goal"][i], save["state"][i])
                         eval_score = save["cost"][next_pos] + save["heuristic"][next_pos]
                         save["eval"][next_pos] = eval_score
@@ -189,6 +189,7 @@ class Astar(Search):
                         i = 0
                         for pos in state:
                             self.history[(state, step+1)]["goal"][i] = self.history[current_state]["goal"][i]
+                            print(save)
                             self.history[(state, step+1)]["state"][i] = save["state"][i]
                             self.history[(state, step+1)]["heuristic"][pos] = save["heuristic"][pos]
                             self.history[(state, step + 1)]["cost"][pos] = save["cost"][pos]

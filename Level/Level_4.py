@@ -30,8 +30,5 @@ class Level_4(Level):
             distance += abs(pos[0] - agent.goal[goal_id][0]) + abs(pos[1] - agent.goal[goal_id][1])
         for i in range(goal_id+1, len(agent.goal)):
             distance += abs(agent.goal[i-1][0] - agent.goal[i][0]) + abs(agent.goal[i-1][1] - agent.goal[i][1])
-        if state > 0:
-            distance += state
-        distance = pow(distance, 2)
-
-        return distance
+        heuristic = distance
+        return heuristic
