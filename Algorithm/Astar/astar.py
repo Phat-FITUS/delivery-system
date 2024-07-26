@@ -79,7 +79,6 @@ class Astar(Search):
                         if self.history[current_state]["goal"][i] == len(agent.goal) - 1:
                             agent.generate_goal(agents, self.level)
                         self.history[current_state]["goal"][i] += 1
-
                         new_goal.append(i)
                 if math.isinf(self.history[current_state]["eval"][agent.current]) and self.history[current_state]["eval"][agent.current] > 0:
                     if agent.id == 0:
@@ -198,6 +197,7 @@ class Astar(Search):
                              self.history[(state, step+1)]["fuel"][pos]) = (save["eval"][pos],
                                                              save["path"][pos], save["time"][pos], save["fuel"][pos])
                             i += 1
+            print(frontier.queue)
         if finished:
             solve = self.creat_path_2(self.expanded, self.trace)
             return solve
