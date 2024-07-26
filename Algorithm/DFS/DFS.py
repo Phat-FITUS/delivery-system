@@ -6,7 +6,7 @@ from Level.Level_2 import *
 from Level.Level_3 import *
 
 
-class BFS(Search):
+class DFS(Search):
     def __init__(self, level):
         super().__init__(level)
 
@@ -41,6 +41,6 @@ class BFS(Search):
 
 if __name__ == '__main__':
     level = Level_3("./input1_level1.txt")
-    algo = BFS(level)
+    algo = DFS(level)
     print(algo.run())
 
