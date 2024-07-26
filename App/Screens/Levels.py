@@ -1,13 +1,14 @@
 import pygame
 from .Screen import Screen
 from ..Constant import Color
-from ..External import Level
+from ..External import Level, Astar
 
 class LevelScreen(Screen):
     def __init__(self, level: Level, *args) -> None:
         super(LevelScreen, self).__init__(*args)
         self.cell_size = 50
         self.level = level
+        self.search = Astar(level)
 
         self.grid_w = self.level.n * self.cell_size
         self.grid_h = self.level.m * self.cell_size
@@ -45,6 +46,18 @@ class LevelScreen(Screen):
             self.drawTextCell("G" if goal_num == 1 else f"S{index}", start_x + x * self.cell_size, start_y + y * self.cell_size, Color.WHITE, Color.LIGHT_RED)
             index += 1
 
+    def drawPath(self, start_x: int, start_y: int):
+        path = self.search.run()
+        print("Path: ", path)
+        if path is None:
+            return
+
+        for pos in path:
+            x, y = pos
+            x = start_x + x * self.cell_size
+            y = start_y + y * self.cell_size
+            self.drawRect(x, y, Color.LIGHT_BLUE)
+
     def drawGrid(self, start_x: int, start_y: int):
         end_x = start_x + self.grid_w
         end_y = start_y + self.grid_h
@@ -57,6 +70,7 @@ class LevelScreen(Screen):
                 self.drawCell(self.level.map[pos_y][pos_x].value, x, y)
 
         self.drawStartGoal(start_x, start_y)
+        self.drawPath(start_x, start_y)
 
     def drawLayout(self) -> None:
         self.drawBackground()

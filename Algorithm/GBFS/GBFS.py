@@ -1,11 +1,10 @@
-from Global.DataStructure import *
-from ..Search import *
+from Global import DataStructure
+from Algorithm.Search import *
 from Global.variable import *
 from Level.Level_1 import *
 from Level.Level_2 import *
 from Level.Level_3 import *
 from Level.Level_4 import *
-
 class GBFS(Search):
     def __init__(self, level):
         super().__init__(level)

@@ -1,9 +1,10 @@
-from Global.DataStructure import *
-from Search import *
+from Global import DataStructure
+from Algorithm.Search import *
 from Global.variable import *
 from Level.Level_1 import *
 from Level.Level_2 import *
 from Level.Level_3 import *
+from Level.Level_4 import *
 
 
 class BFS(Search):

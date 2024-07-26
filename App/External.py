@@ -2,8 +2,10 @@ from Level.Level import Level
 from Level.Level_1 import Level_1
 from Level.Level_2 import Level_2
 from Level.Level_3 import Level_3
+from Level.Level_4 import Level_4
 from Algorithm.Astar.astar import Astar
 from Algorithm.UCS.ucs import UCS
 from Algorithm.GBFS.GBFS import GBFS
 from Algorithm.DFS.DFS import DFS
 from Algorithm.BFS.BFS import BFS
+from Algorithm.Search import Search

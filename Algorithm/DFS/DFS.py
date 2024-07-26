@@ -1,9 +1,10 @@
-from Global.DataStructure import *
-from Search import *
+from Global import DataStructure
+from Algorithm.Search import *
 from Global.variable import *
 from Level.Level_1 import *
 from Level.Level_2 import *
 from Level.Level_3 import *
+from Level.Level_4 import *
 
 
 class DFS(Search):
@@ -13,7 +14,7 @@ class DFS(Search):
     def run(self):
         agent = next(iter(self.level.agents.values()))  # pick the first agent
         agent.frontier = Stack()
-        agent.frontier.put(agent.start)  # push the start node to frontier
+        agent.frontier.push(agent.start)  # push the start node to frontier
         agent.expanded = []
         agent.trace = {agent.start: None}  # trace the path
 
