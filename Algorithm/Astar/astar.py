@@ -79,7 +79,6 @@ class Astar(Search):
                         if self.history[current_state]["goal"][i] == len(agent.goal) - 1:
                             agent.generate_goal(agents, self.level)
                         self.history[current_state]["goal"][i] += 1
-
                         new_goal.append(i)
                 if math.isinf(self.history[current_state]["eval"][agent.current]) and self.history[current_state]["eval"][agent.current] > 0:
                     if agent.id == 0:
@@ -146,6 +145,7 @@ class Astar(Search):
                             save["cost"][next_pos] = self.history[current_state]["cost"][agents[i].current]
                             save["heuristic"][next_pos] = self.history[current_state]["heuristic"][agents[i].current]
                             total_eval += save["eval"][next_pos]
+                            i += 1
                             continue
                         # print(next_pos)
                         # print(save["time"][next_pos])
@@ -190,6 +190,7 @@ class Astar(Search):
                         i = 0
                         for pos in state:
                             self.history[(state, step+1)]["goal"][i] = self.history[current_state]["goal"][i]
+                            print(save)
                             self.history[(state, step+1)]["state"][i] = save["state"][i]
                             self.history[(state, step+1)]["heuristic"][pos] = save["heuristic"][pos]
                             self.history[(state, step + 1)]["cost"][pos] = save["cost"][pos]
@@ -198,6 +199,7 @@ class Astar(Search):
                              self.history[(state, step+1)]["fuel"][pos]) = (save["eval"][pos],
                                                              save["path"][pos], save["time"][pos], save["fuel"][pos])
                             i += 1
+            print(frontier.queue)
         if finished:
             solve = self.creat_path_2(self.expanded, self.trace)
             return solve

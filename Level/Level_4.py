@@ -21,7 +21,7 @@ class Level_4(Level):
                 distance = (abs(pos[0] - station[0]) + abs(pos[1] - station[1]) + self.fuels[station] +
                                     abs(agent.goal[goal_id][0] - station[0]) + abs(agent.goal[goal_id][1] - station[1]))
                 # print(save["fuel"][pos])
-                if (abs(pos[0] - station[0]) + abs(pos[1] - station[1])) > self.f - save["fuel"][pos]:
+                if (abs(pos[0] - station[0]) + abs(pos[1] - station[1])) > self.f - save["fuel"][pos] or self.t - save["time"][pos] < distance:
                     continue
                 if distance < nearest:
                     nearest = distance
@@ -29,11 +29,6 @@ class Level_4(Level):
         else:
             distance += abs(pos[0] - agent.goal[goal_id][0]) + abs(pos[1] - agent.goal[goal_id][1])
         for i in range(goal_id+1, len(agent.goal)):
-            distance += abs(pos[0] - agent.goal[i][0]) + abs(pos[1] - agent.goal[i][1])
-        if state > 0:
-            distance += state
-        distance = pow(distance, 2)
-        if pos == (8,8):
-            print(distance)
-
-        return distance
+            distance += abs(agent.goal[i-1][0] - agent.goal[i][0]) + abs(agent.goal[i-1][1] - agent.goal[i][1])
+        heuristic = distance
+        return heuristic

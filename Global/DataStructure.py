@@ -34,12 +34,11 @@ class Queue:
         self.queue = []
 
     def enqueue(self, item):
-        if item not in self.queue :
+        if item not in self.queue:
             self.queue.append(item)
 
     def dequeue(self):
-        if len(self.queue):
-            self.queue.pop(0)
+        return self.queue.pop(0)
 
     def empty(self):
         return len(self.queue) == 0
@@ -57,8 +56,7 @@ class Stack:
             self.stack.append(item)
 
     def pop(self):
-        if len(self.stack):
-            self.stack.pop()
+        return self.stack.pop()
 
     def empty(self):
         return len(self.stack) == 0

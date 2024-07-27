@@ -22,18 +22,18 @@ class Agent:
         self.id = id
         self.current = None
 
-    def generate_goal(self, agents, level):
+    def generate_goal(self, state, level):
         valid_pos = []
         for i in range(level.n):
             for j in range(level.m):
                 same = False
-                for agent in agents.values():
-                    if agent.current == (i, j):
+                for pos in state:
+                    if pos == (i, j):
                         same = True
                         break
                 if same:
                     continue
-                if level.map[i][j].value > 0 and level.map[i][j].agent is False:
+                if level.map[i][j].value >= 0:
                     valid_pos.append((i, j))
         new_pos = valid_pos[randint(0, len(valid_pos) - 1)]
         self.start = self.goal
@@ -41,9 +41,9 @@ class Agent:
 
 
 MoveDirection = {
-    "up": (1, 0),
-    "down": (-1, 0),
+    "down": (1, 0),
+    "up": (-1, 0),
     "left": (0, -1),
     "right": (0, 1),
-    "wait": (0, 0),
+    # "wait": (0, 0)
 }
