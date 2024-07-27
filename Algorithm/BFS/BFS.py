@@ -35,17 +35,33 @@ class BFS(Search):
                 all_states.append(new_state)
         return all_states
     def run(self):
-        agent = next(iter(self.level.agents.values()))  # pick the first agent
-        agent.frontier = Queue()
-        agent.frontier.put(agent.start)  # push the start node to frontier
-        agent.expanded = []
-        agent.trace = {agent.start: None}  # trace the path
-
-        while not agent.frontier.empty():
-            _, current = agent.frontier.get()  # Get the node with the lowest cost
-            agent.frontier.dequeue()
-
-            if current == agent.goal:  # Check if the current node is the goal
+        agents = self.level.agents
+        done = False
+        frontier = Queue()
+        self.expanded = []
+        state = []
+        self.trace = dict()
+        self.eval = dict()
+        self.history = dict()
+        finished = False
+        for agent in agents.values():
+            state.append(agent.start)
+        frontier.enqueue((tuple(state), 0))
+        self.trace[(tuple(state), 0)] = None
+        self.history[(tuple(state), 0)] = dict()
+        (self.history[(tuple(state), 0)]["cost"], self.history[(tuple(state), 0)]["eval"], self.history[(tuple(state), 0)]["path"],
+         self.history[(tuple(state), 0)]["time"], self.history[(tuple(state), 0)]["fuel"], self.history[(tuple(state), 0)]["goal"],
+         self.history[(tuple(state), 0)]["state"], self.history[(tuple(state), 0)]["heuristic"]) = dict(),dict(), dict(), dict(), dict(), dict(), dict(), dict()
+        i = 0
+        initial_state = (tuple(state), 0)
+        for pos in state:
+            (self.history[(tuple(state), 0)]["cost"][pos], self.history[(tuple(state), 0)]["eval"][pos], self.history[(tuple(state), 0)]["path"][pos],
+             self.history[(tuple(state), 0)]["time"][pos], self.history[(tuple(state), 0)]["fuel"][pos], self.history[(tuple(state), 0)]["state"][i], self.history[(tuple(state), 0)]["goal"][i], self.history[(tuple(state), 0)]["heuristic"][pos]) = 0,0,0, 0, 0, 0, 0, 0
+            i += 1
+        while True:
+            if done is True:
+                break
+            if frontier.empty():
                 break
             current_state = frontier.dequeue()
             print(current_state)
@@ -71,8 +87,7 @@ class BFS(Search):
                 if self.history[current_state]["state"][agent.id] != 0:
                     all_pos[agent.id] = [agent.current]
                     continue
-
-                for move in MoveDirection.values():
+            for move in MoveDirection.values():
                     next_pos = (agent.current[0] + move[0], agent.current[1] + move[1])
                     if self.cannot_move(next_pos):
                         continue
@@ -154,7 +169,7 @@ class BFS(Search):
                          self.history[(state, step + 1)]["fuel"], self.history[(state, step + 1)]["state"],
                          self.history[(state, step + 1)][
                              "heuristic"]) = dict(), dict(), dict(), dict(), dict(), dict(), dict()
-
+                        
                         for i, pos in enumerate(state):
                             self.history[(state, step + 1)]["goal"][i] = self.history[current_state]["goal"][i]
                             self.history[(state, step + 1)]["state"][i] = save["state"][i]
