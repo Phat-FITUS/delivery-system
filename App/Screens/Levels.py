@@ -51,14 +51,12 @@ class LevelScreen(Screen):
         start_num = len(self.level.agents.values())
         index = 1
         goal_num = len(self.level.agents.values())
-        
-        path = self.path
 
         for start_pos in self.level.agents.values():
-            x, y = start_pos.start
+            y, x = start_pos.start
             self.drawTextCell("S" if start_num == 1 else f"S{index}", start_x + x * self.cell_size, start_y + y * self.cell_size, Color.WHITE, Color.DARK_GREEN)
 
-            x, y = start_pos.goal[0]
+            y, x = start_pos.goal[0]
             self.drawTextCell("G" if goal_num == 1 else f"G{index}", start_x + x * self.cell_size, start_y + y * self.cell_size, Color.WHITE, Color.LIGHT_RED)
             index += 1
 
@@ -70,16 +68,18 @@ class LevelScreen(Screen):
         path = path[1:-1]
         for pos in path:
             if pos[1] < self.state:
-                y, x = pos[0][0]
-                x = start_x + x * self.cell_size
-                y = start_y + y * self.cell_size
-                self.drawRect(x, y, Color.YELLOW)
+                for agent_pos in pos[0]:
+                    y, x = agent_pos
+                    x = start_x + x * self.cell_size
+                    y = start_y + y * self.cell_size
+                    self.drawRect(x, y, Color.YELLOW)
             elif pos[1] == self.state:
-                self.fuel -= self.search.history[pos]['fuel'][pos[0][0]]
-                y, x = pos[0][0]
-                x = start_x + x * self.cell_size
-                y = start_y + y * self.cell_size
-                self.drawRect(x, y, Color.PURPLE)
+                for agent_pos in pos[0]:
+                    y, x = agent_pos
+                    self.fuel = self.level.f - self.search.history[pos]['fuel'][agent_pos]
+                    x = start_x + x * self.cell_size
+                    y = start_y + y * self.cell_size
+                    self.drawRect(x, y, Color.PURPLE)
 
         if self.state > path[-1][1]:
             self.finish = True
@@ -126,7 +126,7 @@ class LevelScreen(Screen):
 
         def search():
             self.search = search_algo
-            self.search.run()
+            self.path = self.search.run()
             self.state = 0
             self.fuel = self.level.f
             self.finish = False
