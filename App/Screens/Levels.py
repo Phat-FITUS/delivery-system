@@ -24,6 +24,8 @@ class LevelScreen(Screen):
         self.btn_gbfs = Button.ImageButton("./Assets/gbfs.png", 0.25)
         self.btn_bfs = Button.ImageButton("./Assets/bfs.png", 0.25)
         self.btn_dfs = Button.ImageButton("./Assets/dfs.png", 0.25)
+    
+        self.path = self.search.run()
 
     def drawRect(self, x: int, y: int, color: tuple, colorMode: int = 0) -> None:
         rect = pygame.Rect(x, y, self.cell_size, self.cell_size)
@@ -49,17 +51,19 @@ class LevelScreen(Screen):
         start_num = len(self.level.agents.values())
         index = 1
         goal_num = len(self.level.agents.values())
+        
+        path = self.path
 
         for start_pos in self.level.agents.values():
             x, y = start_pos.start
             self.drawTextCell("S" if start_num == 1 else f"S{index}", start_x + x * self.cell_size, start_y + y * self.cell_size, Color.WHITE, Color.DARK_GREEN)
 
             x, y = start_pos.goal[0]
-            self.drawTextCell("G" if goal_num == 1 else f"S{index}", start_x + x * self.cell_size, start_y + y * self.cell_size, Color.WHITE, Color.LIGHT_RED)
+            self.drawTextCell("G" if goal_num == 1 else f"G{index}", start_x + x * self.cell_size, start_y + y * self.cell_size, Color.WHITE, Color.LIGHT_RED)
             index += 1
 
     def drawPath(self, start_x: int, start_y: int):
-        path = self.search.run()
+        path = self.path
         if path is None:
             return
 
@@ -83,6 +87,9 @@ class LevelScreen(Screen):
     def drawGrid(self, start_x: int, start_y: int):
         end_x = start_x + self.grid_w
         end_y = start_y + self.grid_h
+
+        self.drawStartGoal(start_x, start_y)
+        self.drawPath(start_x, start_y)
     
         for x in range (start_x, end_x, self.cell_size):
             for y in range (start_y, end_y, self.cell_size):
@@ -91,8 +98,6 @@ class LevelScreen(Screen):
                 
                 self.drawCell(self.level.map[pos_y][pos_x].value, x, y)
 
-        self.drawStartGoal(start_x, start_y)
-        self.drawPath(start_x, start_y)
 
     def drawLayout(self) -> None:
         self.drawBackground()
@@ -121,6 +126,7 @@ class LevelScreen(Screen):
 
         def search():
             self.search = search_algo
+            self.search.run()
             self.state = 0
             self.fuel = self.level.f
             self.finish = False

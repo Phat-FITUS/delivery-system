@@ -36,7 +36,6 @@ class Agent:
                 if level.map[i][j].value >= 0:
                     valid_pos.append((i, j))
         new_pos = valid_pos[randint(0, len(valid_pos) - 1)]
-        self.start = self.goal
         self.goal.append(new_pos)
 
 
