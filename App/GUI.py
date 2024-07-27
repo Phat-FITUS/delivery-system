@@ -2,7 +2,7 @@ import pygame
 from .Screens.Main import Main
 
 class Window:
-    def __init__(self, font="./Assets/Pixel/PixelifySans-VariableFont_wght.ttf") -> None:
+    def __init__(self, font="Assets/Pixel/VCR_OSD_MONO_1.001.ttf") -> None:
         pygame.init()
         self.setupAttributes(font)
         pygame.display.set_caption("Delivery system")
