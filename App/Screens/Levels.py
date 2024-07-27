@@ -95,9 +95,11 @@ class LevelScreen(Screen):
             for y in range (start_y, end_y, self.cell_size):
                 pos_x = (x - start_x) // self.cell_size
                 pos_y = (y - start_y) // self.cell_size
+
+                if self.level.map[pos_y][pos_x].fuel > 0:
+                    self.drawTextCell("F1", x, y, Color.WHITE, Color.LIGHT_BLUE)
                 
                 self.drawCell(self.level.map[pos_y][pos_x].value, x, y)
-
 
     def drawLayout(self) -> None:
         self.drawBackground()

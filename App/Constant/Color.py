@@ -1,6 +1,7 @@
 BLACK: tuple = (0, 0, 0)
 WHITE: tuple = (255, 255, 255)
 DARK_BLUE: tuple = (0, 0, 128)
+LIGHT_BLUE: tuple = (0, 0, 255)
 DARK_GREEN: tuple = (0, 128, 0)
 LIGHT_RED: tuple = (220, 20, 60)
 PURPLE: tuple = (153, 0, 255)
