@@ -5,7 +5,7 @@ class Search:
 
 
     def cannot_move(self, pos):
-        return (pos[0] < 0 or pos[1] < 0 or pos[0] >= self.level.m or pos[1] >= self.level.n
+        return (pos[0] < 0 or pos[1] < 0 or pos[0] >= self.level.n or pos[1] >= self.level.m
                 or self.level.map[pos[0]][pos[1]].value == -1)
 
     def creat_path(self, agent):

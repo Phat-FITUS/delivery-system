@@ -7,6 +7,8 @@ class Level:
     def __init__(self, file_path):
         self.load(file_path)
 
+
+
     def load(self, file_name):
         # Load to initial variables
         # Map is a matrix of Position
@@ -16,7 +18,9 @@ class Level:
         # Start and Goal are a Position
         self.agents = dict()
         self.fuels = dict()
+        self.walls = dict()
 
+        walls_list = []
         self.other_start = None
         self.other_goal = None
 
@@ -35,8 +39,9 @@ class Level:
                 for j, char in enumerate(line):
                     # print(char, end="/")
                     if char == '-1':
-
+                        walls_list.append((i, j))
                         row.append(Position(i, j, value=-1))
+
                     elif re.match(r"\d", char):
                         row.append(Position(i, j, value=int(char)))
 
@@ -75,6 +80,14 @@ class Level:
                     else:
                         continue
                 self.map.append(row)
+            self.walls["row"] = [[] for i in range(self.n)]
+            self.walls["col"] = [[] for i in range(self.m)]
+            for wall in walls_list:
+                self.walls["row"][wall[0]].append(wall[1])
+                self.walls["row"][wall[0]].sort()
+                self.walls["col"][wall[1]].append(wall[0])
+                self.walls["col"][wall[1]].sort()
+
 
 
 if __name__ == '__main__':
