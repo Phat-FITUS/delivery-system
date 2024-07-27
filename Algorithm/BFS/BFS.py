@@ -87,8 +87,7 @@ class BFS(Search):
                 if self.history[current_state]["state"][agent.id] != 0:
                     all_pos[agent.id] = [agent.current]
                     continue
-
-                for move in MoveDirection.values():
+            for move in MoveDirection.values():
                     next_pos = (agent.current[0] + move[0], agent.current[1] + move[1])
                     if self.cannot_move(next_pos):
                         continue
@@ -170,7 +169,7 @@ class BFS(Search):
                          self.history[(state, step + 1)]["fuel"], self.history[(state, step + 1)]["state"],
                          self.history[(state, step + 1)][
                              "heuristic"]) = dict(), dict(), dict(), dict(), dict(), dict(), dict()
-
+                        
                         for i, pos in enumerate(state):
                             self.history[(state, step + 1)]["goal"][i] = self.history[current_state]["goal"][i]
                             self.history[(state, step + 1)]["state"][i] = save["state"][i]
