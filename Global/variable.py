@@ -17,8 +17,6 @@ class Agent:
             self.goal = []
         else:
             self.goal = [goal] # (x, y)
-        print("==============----------=============")
-        print(self.goal)
         self.id = id
         self.current = None
 

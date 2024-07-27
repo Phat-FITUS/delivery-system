@@ -75,7 +75,6 @@ class Level:
                     else:
                         continue
                 self.map.append(row)
-            print(self.fuels)
 
 
 if __name__ == '__main__':

@@ -93,7 +93,7 @@ class Astar(Search):
                 i += 1
             # return None
             if done is True:
-                print(self.history[current_state])
+                # print(self.history[current_state])
                 break
             if current_state not in self.expanded:
                 self.expanded.append(current_state)
@@ -119,11 +119,11 @@ class Astar(Search):
                     if self.cannot_move(next_pos):
                         continue
                     all_pos[agent.id].append(next_pos)
-            for pos in all_pos:
-                if len(pos) == 0:
-                    for node in self.expanded:
-                        print(node)
-                    return 1
+            # for pos in all_pos:
+            #     if len(pos) == 0:
+            #         for node in self.expanded:
+            #             # print(node)
+            #         return 1
             states = self.create_state(0, agents, all_pos)
             save = dict()
             for state in states:
@@ -190,7 +190,7 @@ class Astar(Search):
                         i = 0
                         for pos in state:
                             self.history[(state, step+1)]["goal"][i] = self.history[current_state]["goal"][i]
-                            print(save)
+                            # print(save)
                             self.history[(state, step+1)]["state"][i] = save["state"][i]
                             self.history[(state, step+1)]["heuristic"][pos] = save["heuristic"][pos]
                             self.history[(state, step + 1)]["cost"][pos] = save["cost"][pos]
@@ -199,7 +199,7 @@ class Astar(Search):
                              self.history[(state, step+1)]["fuel"][pos]) = (save["eval"][pos],
                                                              save["path"][pos], save["time"][pos], save["fuel"][pos])
                             i += 1
-            print(frontier.queue)
+            # print(frontier.queue)
         if finished:
             solve = self.creat_path_2(self.expanded, self.trace)
             return solve
