@@ -12,8 +12,8 @@ class LevelScreen(Screen):
         self.level = level
         self.search = Astar(level)
 
-        self.grid_w = self.level.n * self.cell_size
-        self.grid_h = self.level.m * self.cell_size
+        self.grid_w = self.level.m * self.cell_size
+        self.grid_h = self.level.n * self.cell_size
 
         self.state = 0
         self.fuel = self.level.f
@@ -106,11 +106,11 @@ class LevelScreen(Screen):
         self.displayText(f"Fuel: {self.fuel}", self.font, Color.WHITE, 200, 650)
 
         if isinstance(self.level, Level_1):
-            self.btn_astar.draw(self.screen, 800, 50, self.handleSearch(0))
-            self.btn_ucs.draw(self.screen, 800, 150, self.handleSearch(1))
-            self.btn_gbfs.draw(self.screen, 800, 250, self.handleSearch(2))
-            self.btn_bfs.draw(self.screen, 800, 350, self.handleSearch(3))
-            self.btn_dfs.draw(self.screen, 800, 450, self.handleSearch(4))
+            self.btn_astar.draw(self.screen, 1000, 50, self.handleSearch(0))
+            self.btn_ucs.draw(self.screen, 1000, 150, self.handleSearch(1))
+            self.btn_gbfs.draw(self.screen, 1000, 250, self.handleSearch(2))
+            self.btn_bfs.draw(self.screen, 1000, 350, self.handleSearch(3))
+            self.btn_dfs.draw(self.screen, 1000, 450, self.handleSearch(4))
 
     def handleSearch(self, algo: int) -> callable:
         if algo == 0:

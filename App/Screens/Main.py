@@ -15,7 +15,7 @@ class Main(Screen):
 
     def handleLevel(self, level: int) -> callable:
         if (level == 1):
-            lv = Level_1("./input1_level1.txt")
+            lv = Level_1("./Test/level1/input_1.txt")
         elif (level == 2):
             lv = Level_2("./input1_level2.txt")
         elif (level == 3):

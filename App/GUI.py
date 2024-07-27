@@ -9,7 +9,7 @@ class Window:
 
     def setupAttributes(self, font) -> None:
         self.SCREEN_HEIGHT = 700
-        self.SCREEN_WIDTH = 1000
+        self.SCREEN_WIDTH = 1200
 
         self.text_font = pygame.font.Font(font, 55)
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
