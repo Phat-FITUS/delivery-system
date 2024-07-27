@@ -45,5 +45,5 @@ MoveDirection = {
     "up": (-1, 0),
     "left": (0, -1),
     "right": (0, 1),
-    "wait": (0, 0)
+    # "wait": (0, 0)
 }
