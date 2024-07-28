@@ -104,8 +104,11 @@ class LevelScreen(Screen):
     def drawLayout(self) -> None:
         self.drawBackground()
         self.drawGrid(50, 50)
-        self.displayText(f"State: {self.state}", self.font, Color.WHITE, 200, 600)
-        self.displayText(f"Fuel: {self.fuel}", self.font, Color.WHITE, 200, 650)
+        if self.path is not None:
+            self.displayText(f"State: {self.state}", self.font, Color.WHITE, 200, 600)
+            self.displayText(f"Fuel: {self.fuel}", self.font, Color.WHITE, 200, 650)
+        else:
+            self.displayText("No path found", self.font, Color.WHITE, 200, 600)
 
         if isinstance(self.level, Level_1):
             self.btn_astar.draw(self.screen, 1000, 50, self.handleSearch(0))
@@ -146,6 +149,6 @@ class LevelScreen(Screen):
 
             pygame.display.update()
 
-            if not self.finish:
+            if not self.finish and self.path is not None:
                 time.sleep(1)
                 self.state += 1

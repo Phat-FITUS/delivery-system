@@ -17,7 +17,7 @@ class Main(Screen):
         if (level == 1):
             lv = Level_1("./Test/level1/input_1.txt")
         elif (level == 2):
-            lv = Level_2("./input1_level2.txt")
+            lv = Level_2("./Test/level2/input_3.txt")
         elif (level == 3):
             lv = Level_3("./input1_level3.txt")
         elif (level == 4):
