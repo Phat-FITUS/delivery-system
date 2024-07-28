@@ -103,7 +103,7 @@ class LevelScreen(Screen):
                     y = start_y + y * self.cell_size
                     self.drawRect(x, y, Color.PURPLE)
 
-        if self.state > path[-1][1]:
+        if len(path) == 0 or self.state > path[-1][1]:
             self.finish = True
 
     def drawGrid(self, start_x: int, start_y: int):

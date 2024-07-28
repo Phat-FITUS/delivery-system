@@ -2,17 +2,19 @@ import pygame
 
 class Component:
     def __init__(self) -> None:
-        pass
+        self.clicked = False
 
     def isClicked(self, rect: pygame.Rect) -> bool:
         pos = pygame.mouse.get_pos()
+        mouse_pressed = pygame.mouse.get_pressed()[0]
 
         if rect.collidepoint(pos):
-            if pygame.mouse.get_pressed()[0] == 1:
+            if mouse_pressed == 1 and not self.clicked:
+                self.clicked = True
                 return True
-
-        if pygame.mouse.get_pressed()[0] == 0:
-            return False
+            elif mouse_pressed == 0:
+                self.clicked = False
+                return False
 
         return False
 
