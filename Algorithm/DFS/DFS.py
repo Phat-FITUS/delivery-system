@@ -102,7 +102,7 @@ class DFS(Search):
             save = dict()
             for state in states:
                 state = tuple(state)
-                if (state, step+1) not in self.expanded:
+                if (state, step+1) not in self.expanded and state not in explore:
                     save = dict()
                     (save["cost"], save["eval"], save["path"],
                      save["time"],

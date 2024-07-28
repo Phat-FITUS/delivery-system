@@ -10,7 +10,7 @@ import time
 start_time = time.time()
 level = Level_1("./input2_level1.txt")
 # print(level.count_walls((7, 2), (9, 9)))
-algo = Astar(level)
+algo = DFS(level)
 
 solve = algo.run()
 print(solve)
