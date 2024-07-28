@@ -21,8 +21,6 @@ class Level:
         self.walls = dict()
 
         walls_list = []
-        self.other_start = None
-        self.other_goal = None
 
         with open(file_name, 'r') as file:
             # Đọc dòng đầu tiên để lấy kích thước bản đồ, thời gian giao hàng và dung lượng bình nhiên liệu

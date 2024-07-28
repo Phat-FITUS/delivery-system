@@ -34,7 +34,8 @@ class Astar(Search):
                 new_state = [pos, *state]
                 all_states.append(new_state)
         return all_states
-    def run(self):
+    def run(self, start_time=0, start_fuel=0):
+        count = 0
         agents = self.level.agents
         done = False
         frontier = PriorityQueue()
@@ -56,7 +57,7 @@ class Astar(Search):
         initial_state = (tuple(state), 0)
         for pos in state:
             (self.history[(tuple(state), 0)]["cost"][pos], self.history[(tuple(state), 0)]["eval"][pos], self.history[(tuple(state), 0)]["path"][pos],
-             self.history[(tuple(state), 0)]["time"][pos], self.history[(tuple(state), 0)]["fuel"][pos], self.history[(tuple(state), 0)]["state"][i], self.history[(tuple(state), 0)]["goal"][i], self.history[(tuple(state), 0)]["heuristic"][pos]) = 0,0,0, 0, 0, 0, 0, 0
+             self.history[(tuple(state), 0)]["time"][pos], self.history[(tuple(state), 0)]["fuel"][pos], self.history[(tuple(state), 0)]["state"][i], self.history[(tuple(state), 0)]["goal"][i], self.history[(tuple(state), 0)]["heuristic"][pos]) = 0,0,0, start_time, start_fuel, 0, 0, 0
             i += 1
         while True:
             if done is True:
@@ -69,7 +70,7 @@ class Astar(Search):
             new_goal = []
             for agent in agents.values():
                 agent.current = current[agent.id]
-                if agent.current == agent.goal[self.history[current_state]["goal"][i]]:
+                if agent.current == agent.goal[self.history[current_state]["goal"][i]] and self.history[current_state]["state"][i] != -1:
                     if agent.id == 0:
                         done = True
                         finished = True
@@ -103,9 +104,11 @@ class Astar(Search):
                     if i in new_goal:
                         self.history[current_state]["time"][pos] = 0
                         self.history[current_state]["path"][pos] = 0
-                        heuristic = self.level.heuristic(agents[i].current, agents[i], self.history[current_state], self.history[current_state]["goal"][i], self.history[current_state]["state"][i])
+                        used, heuristic = self.level.heuristic(agents[i].current, agents[i], self.history[current_state], self.history[current_state]["goal"][i], True)
                         if math.isinf(heuristic) and heuristic > 0:
                             self.history[current_state]["state"][i] = -1
+                        if used:
+                            count += 1
                     i += 1
                 initial_state = current_state
             all_pos = [[] for i in range(len(agents))]
@@ -167,7 +170,10 @@ class Astar(Search):
                             else:
                                 save["fuel"][next_pos] = self.history[current_state]["fuel"][agents[i].current] + 1
                         save["cost"][next_pos] = pow(save["time"][next_pos],2) + save["path"][next_pos]
-                        save["heuristic"][next_pos] = self.level.heuristic(next_pos, agents[i], save, self.history[current_state]["goal"][i], save["state"][i])
+                        result = self.level.heuristic(next_pos, agents[i], save, self.history[current_state]["goal"][i], True if len(agents) > 1 else False)
+                        used, save["heuristic"][next_pos] = result
+                        if used:
+                            count += 1
                         eval_score = save["cost"][next_pos] + save["heuristic"][next_pos]
                         save["eval"][next_pos] = eval_score
                         total_eval += eval_score
@@ -200,6 +206,10 @@ class Astar(Search):
                                                              save["path"][pos], save["time"][pos], save["fuel"][pos])
                             i += 1
             # print(frontier.queue)
+        if count > 0:
+            print(f"Count: {count}")
+        if len(agents) > 1:
+            print("ok")
         if finished:
             solve = self.creat_path_2(self.expanded, self.trace)
             return solve
