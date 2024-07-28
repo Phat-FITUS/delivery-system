@@ -95,7 +95,7 @@ class Level_4(Level):
                         for state in solve:
                             current_state = algo.history[state]["state"][0]
                             self.history_heuristic[agent.id][new_index].append((state[0][0], current_state))
-                        distance = abs(pos[0] - nearest_station[0]) + abs(pos[1] - nearest_station[1]) + len(solve) - 2
+                        distance = abs(pos[0] - nearest_station[0]) + abs(pos[1] - nearest_station[1]) + len(solve) - 1
 
                     else:
                         return float("inf")
