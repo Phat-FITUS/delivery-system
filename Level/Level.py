@@ -7,7 +7,11 @@ class Level:
     def __init__(self, file_path):
         self.load(file_path)
 
-
+    def write_path_to_file(self, path, file_name):
+        output_file_name = file_name.replace("input", "output")
+        with open(output_file_name, 'w') as file:
+            for pos in path:
+                file.write(f"{pos}\n")
 
     def load(self, file_name):
         # Load to initial variables

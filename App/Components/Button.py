@@ -4,6 +4,7 @@ from .Component import Component
 
 class ImageButton(Component):
 	def __init__(self, image: str, scale: float = 1) -> None:
+		super(ImageButton, self).__init__()
 		btn_img = pygame.image.load(image)
 		btn_img = btn_img.convert_alpha()
 
