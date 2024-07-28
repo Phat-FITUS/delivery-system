@@ -7,15 +7,15 @@ from Algorithm.Astar.astar import Astar
 import time
 
 start_time = time.time()
-level = Level_1("./Test/level1/input_1.txt")
-# print(level.count_walls((7, 3), (7, 8)))
+level = Level_4("./input1_level4.txt")
+# print(level.count_walls((7, 2), (9, 9)))
 algo = Astar(level)
 
 solve = algo.run()
-# print(solve)
+print(solve)
 end_time = time.time()
 elapsed_time = float(end_time - start_time)
 print("elapsed_time:{0}".format(elapsed_time / 60) + "[min]")
-for state in solve:
-    print(state, algo.history[state])
+# for state in solve:
+#     print(state, algo.history[state])
 print()
