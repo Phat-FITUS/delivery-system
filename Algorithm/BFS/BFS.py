@@ -88,10 +88,12 @@ class BFS(Search):
                     all_pos[agent.id] = [agent.current]
                     continue
             for move in MoveDirection.values():
-                    next_pos = (agent.current[0] + move[0], agent.current[1] + move[1])
-                    if self.cannot_move(next_pos):
-                        continue
-                    all_pos[agent.id].append(next_pos)
+                if move == (0, 0):
+                    continue
+                next_pos = (agent.current[0] + move[0], agent.current[1] + move[1])
+                if self.cannot_move(next_pos):
+                    continue
+                all_pos[agent.id].append(next_pos)
             states = self.create_state(0, agents, all_pos)
             save = dict()
             for state in states:

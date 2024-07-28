@@ -116,6 +116,8 @@ class GBFS(Search):
                     continue
 
                 for move in MoveDirection.values():
+                    if move == (0, 0):
+                        continue
                     next_pos = (agent.current[0] + move[0], agent.current[1] + move[1])
                     if self.cannot_move(next_pos):
                         continue
@@ -129,7 +131,7 @@ class GBFS(Search):
             save = dict()
             for state in states:
                 state = tuple(state)
-                if (state, step+1) not in self.expanded and state not in explore:
+                if (state, step+1) not in self.expanded:
                     save = dict()
                     (save["cost"], save["eval"], save["path"],
                      save["time"],

@@ -91,6 +91,8 @@ class DFS(Search):
                     continue
 
                 for move in MoveDirection.values():
+                    if move == (0, 0):
+                        continue
                     next_pos = (agent.current[0] + move[0], agent.current[1] + move[1])
                     if self.cannot_move(next_pos):
                         continue
@@ -146,43 +148,42 @@ class DFS(Search):
                         if math.isinf(save["eval"][pos]):
                             total_eval = float('inf')
                             break
-                    if state not in explore:
-                        for i, pos in enumerate(state):
-                            if pos == agents[i].goal[self.history[current_state]["goal"][i]]:
-                                if agents[i].id == 0:
-                                    done = True
-                                    finished = True
-                                    self.expanded.append(current_state)
-                                    self.trace[(state, step + 1)] = current_state
-                                    self.expanded.append((state, step + 1))
-                                    break
-                                else:
-                                    if self.history[current_state]["goal"][i] == len(agents[i].goal) - 1:
-                                        agents[i].generate_goal(agents, self.level)
-                                    self.history[current_state]["goal"][i] += 1
-                                    new_goal.append(i)
-                        frontier.push((state, step + 1))
-                        self.eval[(state, step + 1)] = total_eval
-                        self.trace[(state, step + 1)] = current_state
-                        self.history[(state, step + 1)] = dict()
-                        self.history[(state, step + 1)]["goal"] = dict()
-                        (self.history[(state, step + 1)]["cost"], self.history[(state, step + 1)]["eval"],
-                         self.history[(state, step + 1)]["path"],
-                         self.history[(state, step + 1)]["time"],
-                         self.history[(state, step + 1)]["fuel"], self.history[(state, step + 1)]["state"],
-                         self.history[(state, step + 1)][
-                             "heuristic"]) = dict(), dict(), dict(), dict(), dict(), dict(), dict()
+                    for i, pos in enumerate(state):
+                        if pos == agents[i].goal[self.history[current_state]["goal"][i]]:
+                            if agents[i].id == 0:
+                                done = True
+                                finished = True
+                                self.expanded.append(current_state)
+                                self.trace[(state, step + 1)] = current_state
+                                self.expanded.append((state, step + 1))
+                                break
+                            else:
+                                if self.history[current_state]["goal"][i] == len(agents[i].goal) - 1:
+                                    agents[i].generate_goal(agents, self.level)
+                                self.history[current_state]["goal"][i] += 1
+                                new_goal.append(i)
+                    frontier.push((state, step + 1))
+                    self.eval[(state, step + 1)] = total_eval
+                    self.trace[(state, step + 1)] = current_state
+                    self.history[(state, step + 1)] = dict()
+                    self.history[(state, step + 1)]["goal"] = dict()
+                    (self.history[(state, step + 1)]["cost"], self.history[(state, step + 1)]["eval"],
+                     self.history[(state, step + 1)]["path"],
+                     self.history[(state, step + 1)]["time"],
+                     self.history[(state, step + 1)]["fuel"], self.history[(state, step + 1)]["state"],
+                     self.history[(state, step + 1)][
+                         "heuristic"]) = dict(), dict(), dict(), dict(), dict(), dict(), dict()
 
-                        for i, pos in enumerate(state):
-                            self.history[(state, step + 1)]["goal"][i] = self.history[current_state]["goal"][i]
-                            self.history[(state, step + 1)]["state"][i] = save["state"][i]
-                            self.history[(state, step + 1)]["heuristic"][pos] = save["heuristic"][pos]
-                            self.history[(state, step + 1)]["cost"][pos] = save["cost"][pos]
-                            (self.history[(state, step + 1)]["eval"][pos], self.history[(state, step + 1)]["path"][pos],
-                             self.history[(state, step + 1)]["time"][pos],
-                             self.history[(state, step + 1)]["fuel"][pos]) = (save["eval"][pos],
-                                                                              save["path"][pos], save["time"][pos],
-                                                                              save["fuel"][pos])
+                    for i, pos in enumerate(state):
+                        self.history[(state, step + 1)]["goal"][i] = self.history[current_state]["goal"][i]
+                        self.history[(state, step + 1)]["state"][i] = save["state"][i]
+                        self.history[(state, step + 1)]["heuristic"][pos] = save["heuristic"][pos]
+                        self.history[(state, step + 1)]["cost"][pos] = save["cost"][pos]
+                        (self.history[(state, step + 1)]["eval"][pos], self.history[(state, step + 1)]["path"][pos],
+                         self.history[(state, step + 1)]["time"][pos],
+                         self.history[(state, step + 1)]["fuel"][pos]) = (save["eval"][pos],
+                                                                          save["path"][pos], save["time"][pos],
+                                                                          save["fuel"][pos])
         if finished:
             solve = self.creat_path_2(self.expanded, self.trace)
             return solve
