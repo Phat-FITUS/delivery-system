@@ -129,7 +129,7 @@ class LevelScreen(Screen):
             self.displayText(f"State: {self.state}", self.font, Color.WHITE, 1000, 600)
             self.displayText(f"Fuel: {self.fuel}", self.font, Color.WHITE, 1000, 650)
         else:
-            self.displayText("No path found", self.font, Color.WHITE, 200, 600)
+            self.displayText("No path found", self.font, Color.WHITE, 1000, 600)
 
         if isinstance(self.level, Level_1):
             self.btn_astar.draw(self.screen, 1000, 50, self.handleSearch(0))
