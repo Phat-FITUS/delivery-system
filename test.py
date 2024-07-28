@@ -1,5 +1,6 @@
 from Algorithm.BFS.BFS import BFS
 from Algorithm.DFS.DFS import DFS
+from Algorithm.GBFS.GBFS import GBFS
 from Level.Level_1 import Level_1
 from Level.Level_3 import Level_3
 from Level.Level_4 import Level_4
@@ -7,9 +8,9 @@ from Algorithm.Astar.astar import Astar
 import time
 
 start_time = time.time()
-level = Level_4("./input1_level4.txt")
+level = Level_1("./input2_level1.txt")
 # print(level.count_walls((7, 2), (9, 9)))
-algo = Astar(level)
+algo = GBFS(level)
 
 solve = algo.run()
 print(solve)

@@ -48,7 +48,9 @@ class Level_4(Level):
         return min(count_1, count_2)
 
     def heuristic(self, pos, agent, save, goal_id, use_search=False):
-
+        search = False
+        if use_search and pos == agent.start:
+            search = True
         if self.t - save["time"][pos] < abs(pos[0] - agent.goal[goal_id][0]) + abs(pos[1] - agent.goal[goal_id][1]):
             return float("inf")
         distance = 0
@@ -65,6 +67,37 @@ class Level_4(Level):
                     nearest = distance
                     nearest_station = station
             distance = nearest
+            if search or (nearest_station is not None and use_search):
+                if agent.id not in self.history_heuristic:
+                    self.history_heuristic[agent.id] = dict()
+                founded = False
+                for i in self.history_heuristic[agent.id]:
+                    for j, best in enumerate(self.history_heuristic[agent.id][i]):
+                        if best == (nearest_station, 0):
+                            distance = abs(pos[0] - nearest_station[0]) + abs(pos[1] - nearest_station[1]) + len(self.history_heuristic[agent.id][i]) - j - 1
+                            founded = True
+                            break
+                    if founded:
+                        break
+                if not founded:
+                    new_index = len(self.history_heuristic[agent.id].values())
+                    self.history_heuristic[agent.id][new_index] = []
+                    level = Level_Base()
+                    level.agents = dict()
+                    level.copy(self.map, self.m, self.n, self.t, self.f, agent, self.walls, self.fuels)
+                    level.agents[0].goal = [agent.goal[goal_id]]
+                    level.agents[0].start = nearest_station
+                    algo = Astar(level)
+                    solve = algo.run()
+                    if solve is not None:
+                        for state in solve:
+                            current_state = algo.history[state]["state"][0]
+                            self.history_heuristic[agent.id][new_index].append((state[0][0], current_state))
+                        distance = abs(pos[0] - nearest_station[0]) + abs(pos[1] - nearest_station[1]) + len(solve) - 2
+
+                    else:
+                        return float("inf")
+
         else:
             if use_search and self.count_walls(pos, agent.goal[goal_id]):
                 if agent.id not in self.history_heuristic:

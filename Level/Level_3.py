@@ -12,10 +12,6 @@ class Level_3(Level):
                 pos[1] - agent.goal[goal_id][1]):
             nearest = float("inf")
             for station in self.fuels:
-                # print("bafdjhefbjhrejhghe")
-                # print(pos)
-                # print(station)
-                # print(agent.goal[i][i])
                 distance = (abs(pos[0] - station[0]) + abs(pos[1] - station[1]) + self.fuels[station] +
                             abs(agent.goal[goal_id][0] - station[0]) + abs(agent.goal[goal_id][1] - station[1]))
                 # print(save["fuel"][pos])

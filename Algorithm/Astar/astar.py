@@ -168,10 +168,12 @@ class Astar(Search):
                             else:
                                 save["fuel"][next_pos] = self.history[current_state]["fuel"][agents[i].current] + 1
                         save["cost"][next_pos] = pow(save["time"][next_pos],2) + save["path"][next_pos]
+                        if (state, step+1) == (((6, 2), (7, 3), (5, 5)), 7):
+                            print("ok")
                         save["heuristic"][next_pos] = self.level.heuristic(next_pos, agents[i], save, self.history[current_state]["goal"][i], True if len(agents) > 1 else False)
                         eval_score = save["cost"][next_pos] + save["heuristic"][next_pos]
                         save["eval"][next_pos] = eval_score
-                        total_eval += (10-i)*eval_score
+                        total_eval += eval_score
                         i += 1
                     for pos in state:
                         if math.isinf(save["eval"][pos]):

@@ -43,6 +43,7 @@ class GBFS(Search):
         self.eval = dict()
         self.history = dict()
         finished = False
+        explore = []
         for agent in agents.values():
             state.append(agent.start)
         frontier.put((0, (tuple(state), 0)))
@@ -95,8 +96,8 @@ class GBFS(Search):
             if done is True:
                 print(self.history[current_state])
                 break
-            if current_state not in self.expanded:
-                self.expanded.append(current_state)
+            self.expanded.append(current_state)
+            explore.append(current)
             if len(new_goal) > 0:
                 i = 0
                 for pos in current:
@@ -128,7 +129,7 @@ class GBFS(Search):
             save = dict()
             for state in states:
                 state = tuple(state)
-                if (state, step+1) not in self.expanded:
+                if (state, step+1) not in self.expanded and state not in explore:
                     save = dict()
                     (save["cost"], save["eval"], save["path"],
                      save["time"],
