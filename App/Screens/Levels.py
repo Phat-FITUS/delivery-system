@@ -30,6 +30,7 @@ class LevelScreen(Screen):
         self.path = None
         self.loading = True
         self.isRunning = False
+        self.isSave = False
 
     def drawRect(self, x: int, y: int, color: tuple, colorMode: int = 0) -> None:
         rect = pygame.Rect(x, y, self.cell_size, self.cell_size)
@@ -166,6 +167,18 @@ class LevelScreen(Screen):
         self.finish = False
         self.loading = False
         self.isRunning = False
+
+        if not self.isSave:
+            if isinstance(self.level, Level_1):
+                astar = Astar(self.level).run()
+                ucs = UCS(self.level).run()
+                gbfs = GBFS(self.level).run()
+                bfs = BFS(self.level).run()
+                dfs = DFS(self.level).run()
+                self.level.write_algorithms_paths(bfs, dfs, gbfs, ucs, astar, self.outputName)
+            else:
+                self.level.write_path_to_file(self.path, self.outputName)
+            self.isSave = True
 
     def run(self) -> None:
         while self.running:
