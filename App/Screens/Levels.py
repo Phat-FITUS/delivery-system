@@ -4,6 +4,7 @@ from ..Constant import Color
 from ..External import Level, Level_1, Astar, UCS, GBFS, BFS, DFS
 from ..Components import Button
 import time
+import threading
 
 class LevelScreen(Screen):
     def __init__(self, level: Level, *args) -> None:
@@ -25,7 +26,9 @@ class LevelScreen(Screen):
         self.btn_bfs = Button.ImageButton("./Assets/bfs.png", 0.25)
         self.btn_dfs = Button.ImageButton("./Assets/dfs.png", 0.25)
     
-        self.path = self.search.run()
+        self.path = None
+        self.loading = True
+        self.isRunning = False
 
     def drawRect(self, x: int, y: int, color: tuple, colorMode: int = 0) -> None:
         rect = pygame.Rect(x, y, self.cell_size, self.cell_size)
@@ -131,12 +134,19 @@ class LevelScreen(Screen):
 
         def search():
             self.search = search_algo
-            self.path = self.search.run()
-            self.state = 0
-            self.fuel = self.level.f
-            self.finish = False
+            self.runAlgo()
 
         return search
+    
+    def runAlgo(self) -> None:
+        self.isRunning = True
+        self.loading = True
+        self.path = self.search.run()
+        self.state = 0
+        self.fuel = self.level.f
+        self.finish = False
+        self.loading = False
+        self.isRunning = False
 
     def run(self) -> None:
         while self.running:
@@ -145,7 +155,14 @@ class LevelScreen(Screen):
                 if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
                     self.running = False
 
-            self.drawLayout()
+            if self.loading:
+                self.drawBackground()
+                self.displayText("Loading...", self.font, Color.WHITE, self.SCREEN_WIDTH // 2, self.SCREEN_HEIGHT // 2)
+                pygame.display.update()
+                if not self.isRunning:
+                    threading.Thread(target=self.runAlgo).start()
+            else:
+                self.drawLayout()
 
             pygame.display.update()
 
