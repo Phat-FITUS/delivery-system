@@ -67,7 +67,9 @@ class Level_4(Level):
                     nearest = distance
                     nearest_station = station
             distance = nearest
-            if search or (nearest_station is not None and use_search):
+            if (search and nearest_station is not None) or (nearest_station is not None and use_search):
+                if nearest_station is None:
+                    print("ok")
                 if agent.id not in self.history_heuristic:
                     self.history_heuristic[agent.id] = dict()
                 founded = False
