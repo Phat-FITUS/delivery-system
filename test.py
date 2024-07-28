@@ -8,9 +8,9 @@ from Algorithm.Astar.astar import Astar
 import time
 
 start_time = time.time()
-level = Level_4("./input3_level4.txt")
+level = Level_1("./input5_level1.txt")
 # print(level.count_walls((7, 2), (9, 9)))
-algo = Astar(level)
+algo = GBFS(level)
 
 solve = algo.run()
 print(solve)
