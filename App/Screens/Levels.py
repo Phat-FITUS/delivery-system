@@ -126,8 +126,8 @@ class LevelScreen(Screen):
         self.drawBackground()
         self.drawGrid(50, 50)
         if self.path is not None:
-            self.displayText(f"State: {self.state}", self.font, Color.WHITE, 200, 600)
-            self.displayText(f"Fuel: {self.fuel}", self.font, Color.WHITE, 200, 650)
+            self.displayText(f"State: {self.state}", self.font, Color.WHITE, 1000, 600)
+            self.displayText(f"Fuel: {self.fuel}", self.font, Color.WHITE, 1000, 650)
         else:
             self.displayText("No path found", self.font, Color.WHITE, 200, 600)
 
