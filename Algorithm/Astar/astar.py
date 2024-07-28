@@ -104,11 +104,9 @@ class Astar(Search):
                     if i in new_goal:
                         self.history[current_state]["time"][pos] = 0
                         self.history[current_state]["path"][pos] = 0
-                        used, heuristic = self.level.heuristic(agents[i].current, agents[i], self.history[current_state], self.history[current_state]["goal"][i], True)
+                        heuristic = self.level.heuristic(agents[i].current, agents[i], self.history[current_state], self.history[current_state]["goal"][i], True)
                         if math.isinf(heuristic) and heuristic > 0:
                             self.history[current_state]["state"][i] = -1
-                        if used:
-                            count += 1
                     i += 1
                 initial_state = current_state
             all_pos = [[] for i in range(len(agents))]
@@ -170,13 +168,10 @@ class Astar(Search):
                             else:
                                 save["fuel"][next_pos] = self.history[current_state]["fuel"][agents[i].current] + 1
                         save["cost"][next_pos] = pow(save["time"][next_pos],2) + save["path"][next_pos]
-                        result = self.level.heuristic(next_pos, agents[i], save, self.history[current_state]["goal"][i], True if len(agents) > 1 else False)
-                        used, save["heuristic"][next_pos] = result
-                        if used:
-                            count += 1
+                        save["heuristic"][next_pos] = self.level.heuristic(next_pos, agents[i], save, self.history[current_state]["goal"][i], True if len(agents) > 1 else False)
                         eval_score = save["cost"][next_pos] + save["heuristic"][next_pos]
                         save["eval"][next_pos] = eval_score
-                        total_eval += eval_score
+                        total_eval += (10-i)*eval_score
                         i += 1
                     for pos in state:
                         if math.isinf(save["eval"][pos]):

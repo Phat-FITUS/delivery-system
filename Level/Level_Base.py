@@ -23,4 +23,4 @@ class Level_Base(Level):
             distance += abs(pos[0] - agent.goal[i][0]) + abs(pos[1] - agent.goal[i][1])
         distance = pow(distance, 2)
 
-        return False, distance
+        return distance
