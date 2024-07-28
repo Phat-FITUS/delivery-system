@@ -69,6 +69,24 @@ class LevelScreen(Screen):
             return
 
         path = path[1:-1]
+        for expanded in self.search.expanded:
+            if expanded[1] <= self.state:
+                for agent_pos in expanded[0]:
+                    is_start_or_goal = False
+                    for start_pos in self.level.agents.values():
+                        if agent_pos == start_pos.start:
+                            is_start_or_goal = True
+                            break
+                        if agent_pos == start_pos.goal[0]:
+                            is_start_or_goal = True
+                            break
+
+                    if not is_start_or_goal:
+                        y, x = agent_pos
+                        x = start_x + x * self.cell_size
+                        y = start_y + y * self.cell_size
+                        self.drawRect(x, y, Color.GREY)
+
         for pos in path:
             if pos[1] < self.state:
                 for agent_pos in pos[0]:
