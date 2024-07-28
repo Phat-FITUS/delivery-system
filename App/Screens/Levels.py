@@ -7,11 +7,12 @@ import time
 import threading
 
 class LevelScreen(Screen):
-    def __init__(self, level: Level, *args) -> None:
+    def __init__(self, level: Level, outputName: str, *args) -> None:
         super(LevelScreen, self).__init__(*args)
         self.cell_size = 50
         self.level = level
         self.search = Astar(level)
+        self.outputName = outputName
 
         self.grid_w = self.level.m * self.cell_size
         self.grid_h = self.level.n * self.cell_size

@@ -1,8 +1,7 @@
 from .Screen import Screen
 from ..Constant import Color
 from ..Components import Button
-from .Levels import LevelScreen
-from ..External import Level_1, Level_2, Level_3, Level_4
+from .Input import InputScreen
 import pygame
 
 class Main(Screen):
@@ -15,16 +14,16 @@ class Main(Screen):
 
     def handleLevel(self, level: int) -> callable:
         if (level == 1):
-            lv = Level_1("./Test/level1/input_4.txt")
+            lv = "level1"
         elif (level == 2):
-            lv = Level_2("./Test/level2/input_3.txt")
+            lv = "level2"
         elif (level == 3):
-            lv = Level_3("./input1_level3.txt")
+            lv = "level3"
         elif (level == 4):
-            lv = Level_4("./input1_level4.txt")
+            lv = "level4"
 
         def handle() -> None:
-            app = LevelScreen(lv, self.screen, self.SCREEN_HEIGHT, self.SCREEN_WIDTH, self.font)
+            app = InputScreen(lv, self.screen, self.SCREEN_HEIGHT, self.SCREEN_WIDTH, self.font, "./Assets/background.jpg")
             app.run()
 
         return handle
