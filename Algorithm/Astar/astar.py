@@ -66,6 +66,8 @@ class Astar(Search):
                 break
             current_state = frontier.get()
             current, step = current_state
+            if step > self.level.m * self.level.n:
+                break
             i = 0
             new_goal = []
             for agent in agents.values():
