@@ -152,7 +152,7 @@ class LevelScreen(Screen):
 
         def search():
             self.search = search_algo
-            self.runAlgo()
+            threading.Thread(target=self.runAlgo).start()
 
         return search
     
